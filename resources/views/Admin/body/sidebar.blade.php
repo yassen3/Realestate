@@ -62,7 +62,7 @@
             </div>
           </li>
           @endif
-          @if (Auth::user()->can('property.menu'))
+          {{-- @if (Auth::user()->can('Property.Menu')) --}}
           <li class="nav-item">
             <a class="nav-link" data-bs-toggle="collapse" href="#property" role="button" aria-expanded="false" aria-controls="emails">
               <i class="link-icon" data-feather="mail"></i>
@@ -71,20 +71,20 @@
             </a>
             <div class="collapse" id="property">
               <ul class="nav sub-menu">
-                @if (Auth::user()->can('all.property'))
+                {{-- @if (Auth::user()->can('All.Property')) --}}
                 <li class="nav-item">
                   <a href="{{route("all.properties")}}" class="nav-link">All Property</a>
                 </li>
-                @endif
-                @if (Auth::user()->can('add.property'))
+                {{-- @endif --}}
+                {{-- @if (Auth::user()->can('Add.Property')) --}}
                 <li class="nav-item">
                   <a href="{{route("add.properties")}}" class="nav-link">Add Property</a>
                 </li>
-                @endif
+                {{-- @endif --}}
               </ul>
             </div>
           </li>
-          @endif
+          {{-- @endif --}}
           @if (Auth::user()->can('state.menu'))
           <li class="nav-item">
             <a class="nav-link" data-bs-toggle="collapse" href="#state" role="button" aria-expanded="false" aria-controls="emails">

@@ -35,126 +35,101 @@ class PropertyController extends Controller
         return view('backend.property.add_property',compact('propertytype','amenities','activeAgent','pstate'));
     }
 
-    public function StoreProperties(request $request)
-     {
-        // $request->validate([
-
-        //     'ptype_id' => 'required',
-        //     'property_name' => 'required',
-        //     'property_status' => 'required',
-        //     'lowest_price' => 'required',
-        //     'max_price' => 'required',
-        //     'property_thambnail' => 'required',
-        //     'multi_img' => 'required',
-        //     'bedrooms' => 'required',
-        //     'bathrooms' => 'required',
-        //     'garage' => 'required',
-        //     'garage_size' => 'required',
-        //     'address' => 'required',
-        //     'city' => 'required',
-        //     'state' => 'required',
-        //     'postal_code' => 'required',
-        //     'propery_size' => 'required',
-        //     'neighborhood' => 'required',
-        //     'latitude' => 'required',
-        //     'longtitude' => 'required',
-        //     'amenities_id' => 'required',
-        //     'agent_id' => 'required',
-        //     'short_desc' => 'required',
-        //     'long_desc' => 'required',
-        //     'facility_name' => 'required',
-        //     'distance' => 'required',
-        // ]);
-
+    public function StoreProperty(Request $request){
 
         $amen = $request->amenities_id;
         $amenites = implode(",", $amen);
-        $pcode = IdGenerator::generate(['table' =>'properties', 'field' => 'property_code','length'=> 5,'prefix' =>'PC']);
+        // dd($amenites);
+
+        $pcode = IdGenerator::generate(['table' => 'properties','field' => 'property_code','length' => 5, 'prefix' => 'PC' ]);
+
+
         $image = $request->file('property_thambnail');
         $name_gen = hexdec(uniqid()).'.'.$image->getClientOriginalExtension();
         Image::make($image)->resize(370,250)->save('upload/property/thambnail/'.$name_gen);
         $save_url = 'upload/property/thambnail/'.$name_gen;
 
+        $property_id = Property::insertGetId([
 
-           $property_id = Property::insertGetId([
-
-            'ptype_id' =>$request->ptype_id,
+            'ptype_id' => $request->ptype_id,
             'amenities_id' => $amenites,
-            'property_name' =>$request->property_name,
-            'property_slug' =>strtolower(str_replace(' ', '-', $request->property_name)),
-            'property_code' =>$pcode,
-            'property_status' =>$request->property_status,
+            'property_name' => $request->property_name,
+            'property_slug' => strtolower(str_replace(' ', '-', $request->property_name)),
+            'property_code' => $pcode,
+            'property_status' => $request->property_status,
 
-            'lowest_price' =>$request->lowest_price,
-            'max_price' =>$request->max_price,
-            'short_desc' =>$request->short_desc,
-            'long_desc' =>$request->long_desc,
-            'bedrooms' =>$request->bedrooms,
-            'bathrooms' =>$request->bathrooms,
-            'garage' =>$request->garage,
-            'garage_size' =>$request->garage_size,
+            'lowest_price' => $request->lowest_price,
+            'max_price' => $request->max_price,
+            'short_descp' => $request->short_descp,
+            'long_descp' => $request->long_descp,
+            'bedrooms' => $request->bedrooms,
+            'bathrooms' => $request->bathrooms,
+            'garage' => $request->garage,
+            'garage_size' => $request->garage_size,
 
-            'property_size' =>$request->property_size,
-            'property_video' =>$request->property_video,
-            'address' =>$request->address,
-            'city' =>$request->city,
-            'state' =>$request->state,
-            'postal_code' =>$request->postal_code,
+            'property_size' => $request->property_size,
+            'property_video' => $request->property_video,
+            'address' => $request->address,
+            'city' => $request->city,
+            'state' => $request->state,
+            'postal_code' => $request->postal_code,
 
-            'neighborhood' =>$request->neighborhood,
-            'latitude' =>$request->latitude,
-            'longtitude' =>$request->longtitude,
-            'featured' =>$request->featured,
-            'hot' =>$request->hot,
-            'agent_id' =>$request->agent_id,
+            'neighborhood' => $request->neighborhood,
+            'latitude' => $request->latitude,
+            'longitude' => $request->longitude,
+            'featured' => $request->featured,
+            'hot' => $request->hot,
+            'agent_id' => $request->agent_id,
             'status' => 1,
             'property_thambnail' => $save_url,
             'created_at' => Carbon::now(),
+        ]);
 
+        /// Multiple Image Upload From Here ////
 
-           ]);
-           // Begin Multiple Image Upload
+        $images = $request->file('multi_img');
+        foreach($images as $img){
 
-           $images = $request->file('multi_img');
-           foreach($images as $img){
-            $make_name = hexdec(uniqid()).'.'.$img->getClientOriginalExtension();
-            Image::make($img)->resize(770,520)->save('upload/property/multi_image/'.$make_name);
-            $uploadImages = 'upload/property/multi_image/'.$make_name;
+        $make_name = hexdec(uniqid()).'.'.$img->getClientOriginalExtension();
+        Image::make($img)->resize(770,520)->save('upload/property/multi-image/'.$make_name);
+        $uploadPath = 'upload/property/multi-image/'.$make_name;
 
-            // $request->validate([
-            //     'multi_img[]' => 'required',
-            // ]);
-            MultiImage::insert([
+        MultiImage::insert([
 
-                'property_id'=>$property_id,
-                'photo_name'=>$uploadImages,
-                'created_at'=> Carbon::now()
-            ]);
-           }  // End Foreach
-           // End Multiple Image Upload
+            'property_id' => $property_id,
+            'photo_name' => $uploadPath,
+            'created_at' => Carbon::now(),
 
-           // Add Facility
+        ]);
+        } // End Foreach
 
-            $facilities = Count($request->facility_name);
-            if($facilities != NULL){
-            for($i=0; $i< $facilities; $i++){
-                $fcount = new Facility();
-                $fcount->property_id = $property_id;
-                $fcount->facility_name = $request->facility_name[$i];
-                $fcount->distance = $request->distance[$i];
-                $fcount->save();
-            }
+         /// End Multiple Image Upload From Here ////
+
+         /// Facilities Add From Here ////
+
+        $facilities = Count($request->facility_name);
+
+        if ($facilities != NULL) {
+           for ($i=0; $i < $facilities; $i++) {
+               $fcount = new Facility();
+               $fcount->property_id = $property_id;
+               $fcount->facility_name = $request->facility_name[$i];
+               $fcount->distance = $request->distance[$i];
+               $fcount->save();
+           }
         }
-           // End Facility
 
-           $notification = array(
+         /// End Facilities  ////
+
+
+            $notification = array(
             'message' => 'Property Inserted Successfully',
-            'alert-type' => 'success',
-           );
+            'alert-type' => 'success'
+        );
 
-           return redirect()->route('all.properties')->with($notification);
+        return redirect()->route('all.property')->with($notification);
 
-    }  // End Method
+    }// End Method
 
 
     public function EditProperties($id){
@@ -261,8 +236,8 @@ class PropertyController extends Controller
         $oldImage = $request->old_img;
 
         $image = $request->file('property_thambnail');
-        $name_gen = hexdec(uniqid()).'.'.$image->getClientOriginalExtension();
-        Image::make($image)->resize(370,250)->save('upload/property/thambnail/'.$name_gen);
+        $name_gen = hexdec(uniqid()).'.webp';
+        Image::make($image)->encode('webp')->resize(370,250)->save('upload/property/thambnail/'.$name_gen);
         $save_url = 'upload/property/thambnail/'.$name_gen;
 
         if (file_exists($oldImage)) {
@@ -294,8 +269,8 @@ class PropertyController extends Controller
      foreach($imgs as $id=>$img){
        $imgDel = MultiImage::findorfail($id);
        unlink($imgDel->photo_name);
-       $make_name = hexdec(uniqid()).'.'.$img->getClientOriginalExtension();
-       Image::make($img)->resize(770,520)->save('upload/property/multi_image/'.$make_name);
+       $make_name = hexdec(uniqid()).'.webp';
+       Image::make($img)->encode('webp')->resize(770,520)->save('upload/property/multi_image/'.$make_name);
        $uploadImages = 'upload/property/multi_image/'.$make_name;
 
        MultiImage::where('id',$id)->update([
@@ -334,8 +309,8 @@ class PropertyController extends Controller
         $new_multi = $request->imageid;
         $image = $request->file('multi_img');
 
-        $make_name = hexdec(uniqid()).'.'.$image->getClientOriginalExtension();
-        Image::make($image)->resize(770,520)->save('upload/property/multi_image/'.$make_name);
+        $make_name = hexdec(uniqid()).'.webp';
+        Image::make($image)->encode('webp')->resize(770,520)->save('upload/property/multi_image/'.$make_name);
         $uploadImages = 'upload/property/multi_image/'.$make_name;
 
         MultiImage::insert([

@@ -88,8 +88,8 @@ class AgentPropertyController extends Controller
         $amenites = implode(",", $amen);
         $pcode = IdGenerator::generate(['table' =>'properties', 'field' => 'property_code','length'=> 5,'prefix' =>'PC']);
         $image = $request->file('property_thambnail');
-        $name_gen = hexdec(uniqid()).'.'.$image->getClientOriginalExtension();
-        Image::make($image)->resize(370,250)->save('upload/property/thambnail/'.$name_gen);
+        $name_gen = hexdec(uniqid()).'.'.$image.'.webp';
+        Image::make($image)->encode('webp')->resize(370,250)->save('upload/property/thambnail/'.$name_gen);
         $save_url = 'upload/property/thambnail/'.$name_gen;
 
 
@@ -134,8 +134,8 @@ class AgentPropertyController extends Controller
 
            $images = $request->file('multi_img');
            foreach($images as $img){
-            $make_name = hexdec(uniqid()).'.'.$img->getClientOriginalExtension();
-            Image::make($img)->resize(770,520)->save('upload/property/multi_image/'.$make_name);
+            $make_name = hexdec(uniqid()).'.'.$img.'.webp';
+            Image::make($img)->encode('webp')->resize(770,520)->save('upload/property/multi_image/'.$make_name);
             $uploadImages = 'upload/property/multi_image/'.$make_name;
 
             // $request->validate([
@@ -278,8 +278,8 @@ class AgentPropertyController extends Controller
         $oldImage = $request->old_img;
 
         $image = $request->file('property_thambnail');
-        $name_gen = hexdec(uniqid()).'.'.$image->getClientOriginalExtension();
-        Image::make($image)->resize(370,250)->save('upload/property/thambnail/'.$name_gen);
+        $name_gen = hexdec(uniqid()).'.'.$image.'.webp';
+        Image::make($image)->encode('webp')->resize(370,250)->save('upload/property/thambnail/'.$name_gen);
         $save_url = 'upload/property/thambnail/'.$name_gen;
 
         if (file_exists($oldImage)) {
@@ -310,8 +310,8 @@ class AgentPropertyController extends Controller
      foreach($imgs as $id=>$img){
        $imgDel = MultiImage::findorfail($id);
        unlink($imgDel->photo_name);
-       $make_name = hexdec(uniqid()).'.'.$img->getClientOriginalExtension();
-       Image::make($img)->resize(770,520)->save('upload/property/multi_image/'.$make_name);
+       $make_name = hexdec(uniqid()).'.'.$img.'.webp';
+       Image::make($img)->encode('webp')->resize(770,520)->save('upload/property/multi_image/'.$make_name);
        $uploadImages = 'upload/property/multi_image/'.$make_name;
 
        MultiImage::where('id',$id)->update([
@@ -347,8 +347,8 @@ class AgentPropertyController extends Controller
         $new_multi = $request->imageid;
         $image = $request->file('multi_img');
 
-        $make_name = hexdec(uniqid()).'.'.$image->getClientOriginalExtension();
-        Image::make($image)->resize(770,520)->save('upload/property/multi_image/'.$make_name);
+        $make_name = hexdec(uniqid()).'.'.$image.'.webp';
+        Image::make($image)->encode('webp')->resize(770,520)->save('upload/property/multi_image/'.$make_name);
         $uploadImages = 'upload/property/multi_image/'.$make_name;
 
         MultiImage::insert([

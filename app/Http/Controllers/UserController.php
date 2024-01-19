@@ -30,9 +30,9 @@ class UserController extends Controller
     $data->address = $request->address;
 
     if($request->file('photo')){
-        $file = $request->file('photo');
+        $file = $request->file('photo')->encode('webp');
         @unlink(public_path('upload/user_images/'.$data->photo));
-        $filename = date('YmdHi').$file->getClientOriginalName();
+        $filename = date('YmdHi').$file.'.webp';
         $file->move(public_path('upload/user_images'),$filename);
         $data->photo = $filename;
 

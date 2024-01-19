@@ -55,8 +55,8 @@ class SettingController extends Controller
         $site_id = $request->id;
         if($request->file('logo')){
            $image = $request->file('logo');
-       $name_gen = hexdec(uniqid()).'.'.$image->getClientOriginalExtension();
-       Image::make($image)->resize(1800,386)->save('upload/logo/'.$name_gen);
+       $name_gen = hexdec(uniqid()).'.webp';
+       Image::make($image)->encode('webp')->resize(1800,386)->save('upload/logo/'.$name_gen);
        $save_url = 'upload/logo/'.$name_gen;
        SiteSetting::findorfail($site_id)->update([
          'support_phone'=> $request->support_phone,

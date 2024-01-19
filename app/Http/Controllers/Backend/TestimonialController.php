@@ -26,8 +26,8 @@ class TestimonialController extends Controller
             'message' => 'required',
         ]);
         $image = $request->file('image');
-        $name_gen = hexdec(uniqid()).'.'.$image->getClientOriginalExtension();
-        Image::make($image)->resize(100,100)->save('upload/testimonial/'.$name_gen);
+        $name_gen = hexdec(uniqid()).'.webp';
+        Image::make($image)->encode('webp')->resize(100,100)->save('upload/testimonial/'.$name_gen);
         $save_url = 'upload/testimonial/'.$name_gen;
         Testimonial::insert([
             'name'=> $request->name,
@@ -52,8 +52,8 @@ class TestimonialController extends Controller
         $testimonial_id = $request->id;
          if($request->file('image')){
             $image = $request->file('image');
-        $name_gen = hexdec(uniqid()).'.'.$image->getClientOriginalExtension();
-        Image::make($image)->resize(100,100)->save('upload/testimonial/'.$name_gen);
+        $name_gen = hexdec(uniqid()).'.webp';
+        Image::make($image)->encode('webp')->resize(100,100)->save('upload/testimonial/'.$name_gen);
         $save_url = 'upload/testimonial/'.$name_gen;
         Testimonial::findorfail($testimonial_id)->update([
             'name'=> $request->name,

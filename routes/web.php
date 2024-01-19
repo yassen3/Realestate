@@ -166,12 +166,12 @@ Route::middleware(['auth','roles:admin'])->group(function(){
 
     // State All Controller
 Route::controller(StateController::class)->group(function(){
-    Route::get('/all/state', 'AllState')->name('all.state')->middleware('permission:all.state');
-    Route::get('/add/state', 'AddState')->name('add.state')->middleware('permission:add.state');
+    Route::get('/all/state', 'AllState')->name('all.state')->middleware('permission:state.all');
+    Route::get('/add/state', 'AddState')->name('add.state')->middleware('permission:state.add');
     Route::post('/store/state', 'StoreState')->name('store.state');
-    Route::get('/edit/state/{id}', 'EditState')->name('edit.state')->middleware('permission:edit.state');
+    Route::get('/edit/state/{id}', 'EditState')->name('edit.state')->middleware('permission:state.edit');
     Route::post('/update/state', 'UpdateState')->name('update.state');
-    Route::get('/delete/tystatepe/{id}', 'DeleteState')->name('delete.state')->middleware('permission:delete.state');
+    Route::get('/delete/tystatepe/{id}', 'DeleteState')->name('delete.state')->middleware('permission:state.delete');
 
 });
   //Testimonials All Routes
