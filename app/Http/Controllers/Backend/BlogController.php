@@ -162,7 +162,7 @@ class BlogController extends Controller
             $dposts = BlogPost::latest()->limit(3)->get();
             $tags = $blog->post_tags;
             $tags_all = explode(',', $tags);
-            return view('frontend.blog.blog_details',compact('blog','tags_all','category','dposts'));
+            return view('Frontend.blog.blog_details',compact('blog','tags_all','category','dposts'));
         }
 
         public function BlogCatList($id){
@@ -170,14 +170,14 @@ class BlogController extends Controller
             $breadcat = BlogCategory::where('id',$id)->first();
             $category = BlogCategory::latest()->get();
             $dposts = BlogPost::latest()->limit(3)->get();
-            return view('frontend.blog.blog_cat_list',compact('blog','category','breadcat','dposts'));
+            return view('Frontend.blog.blog_cat_list',compact('blog','category','breadcat','dposts'));
         }
 
         public function BlogList(){
             $blog = BlogPost::latest()->paginate(8);
             $category = BlogCategory::latest()->get();
             $dposts = BlogPost::latest()->limit(3)->get();
-            return view('frontend.blog.blog_list',compact('blog','category','dposts'));
+            return view('Frontend.blog.blog_list',compact('blog','category','dposts'));
         }
 
         public function StoreComment(request $request){

@@ -173,7 +173,7 @@ class AgentPropertyController extends Controller
             'alert-type' => 'success',
            );
 
-           return redirect()->route('agent.all.properties')->with($notification);
+           return redirect()->route('Agent.all.properties')->with($notification);
     }
 
     public function AgentEditProperties($id){
@@ -266,7 +266,7 @@ class AgentPropertyController extends Controller
             'alert-type' => 'success',
            );
 
-           return redirect()->route('agent.all.properties')->with($notification);
+           return redirect()->route('Agent.all.properties')->with($notification);
 
 
 
@@ -296,7 +296,7 @@ class AgentPropertyController extends Controller
             'alert-type' => 'success',
            );
 
-           return redirect()->route('agent.all.properties')->with($notification);
+           return redirect()->route('Agent.all.properties')->with($notification);
 
     } // End Method
 
@@ -324,7 +324,7 @@ class AgentPropertyController extends Controller
         'alert-type' => 'success',
        );
 
-       return redirect()->route('agent.all.properties')->with($notification);
+       return redirect()->route('Agent.all.properties')->with($notification);
 
     } // End Method
 
@@ -339,7 +339,7 @@ class AgentPropertyController extends Controller
         'alert-type' => 'success',
        );
 
-       return redirect()->route('agent.all.properties')->with($notification);
+       return redirect()->route('Agent.all.properties')->with($notification);
 
     } // End Method
     public function AgentStoreNewMultiimage(request $request){
@@ -362,7 +362,7 @@ class AgentPropertyController extends Controller
             'alert-type' => 'success',
            );
 
-           return redirect()->route('agent.all.properties')->with($notification);
+           return redirect()->route('Agent.all.properties')->with($notification);
 
     } // End Method
 
@@ -390,7 +390,7 @@ class AgentPropertyController extends Controller
                 'alert-type' => 'success',
                );
 
-               return redirect()->route('agent.all.properties')->with($notification);
+               return redirect()->route('Agent.all.properties')->with($notification);
         }  // End Method
 
         public function AgentDetailsProperties($id){
@@ -432,7 +432,7 @@ class AgentPropertyController extends Controller
                 'alert-type' => 'success',
                );
 
-               return redirect()->route('agent.all.properties')->with($notification);
+               return redirect()->route('Agent.all.properties')->with($notification);
         } // End Method
 
         public function BuyPackage(){
@@ -469,7 +469,7 @@ class AgentPropertyController extends Controller
             'alert-type' => 'success',
            );
 
-           return redirect()->route('agent.all.properties')->with($notification);
+           return redirect()->route('Agent.all.properties')->with($notification);
     } // End Method
 
     public function BuyProfessionalPlan(){
@@ -502,7 +502,7 @@ class AgentPropertyController extends Controller
         'alert-type' => 'success',
        );
 
-       return redirect()->route('agent.all.properties')->with($notification);
+       return redirect()->route('Agent.all.properties')->with($notification);
     }
 
     public function HistoryPackage(){
@@ -526,7 +526,7 @@ class AgentPropertyController extends Controller
 
         $id = Auth::user()->id;
         $usermsg = PropertyMessage::where('agent_id',$id)->get();
-        return view('agent.message.all_message',compact('usermsg'));
+        return view('Agent.message.all_message',compact('usermsg'));
     }
     public function AgentMessageDetails($id){
 
@@ -534,7 +534,7 @@ class AgentPropertyController extends Controller
         $usermsg = PropertyMessage::where('agent_id',$uid)->get();
 
         $msgdetails = PropertyMessage::findOrFail($id);
-        return view('agent.message.message_details',compact('usermsg','msgdetails'));
+        return view('Agent.message.message_details',compact('usermsg','msgdetails'));
 
     }// End Method
 
@@ -542,13 +542,13 @@ class AgentPropertyController extends Controller
 
         $id = Auth::user()->id;
         $usermsg = Schedule::where('agent_id',$id)->get();
-        return view('agent.schedule.schedule_request',compact('usermsg'));
+        return view('Agent.schedule.schedule_request',compact('usermsg'));
     }
 
     public function AgentDetailsSchedule($id){
 
         $schedule = Schedule::findorfail($id);
-        return view('agent.schedule.schedule_details',compact('schedule'));
+        return view('Agent.schedule.schedule_details',compact('schedule'));
     }
 
     public function AgentUpdateSchedule(request $request){
@@ -576,6 +576,6 @@ class AgentPropertyController extends Controller
 
            //// End Sending Mail
 
-           return redirect()->route('agent.schedule.request')->with($notification);
+           return redirect()->route('Agent.schedule.request')->with($notification);
     }
     }

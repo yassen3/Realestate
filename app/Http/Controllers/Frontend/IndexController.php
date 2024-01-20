@@ -67,7 +67,7 @@ class IndexController extends Controller
         $featured = Property::where('featured','1')->limit(3)->get();
         $rentProperty = Property::where('property_status','rent')->get();
         $buyProperty = Property::where('property_status','buy')->get();
-        return view('frontend.agent.agent_details',compact('agent','property','featured','rentProperty','buyProperty'));
+        return view('Frontend.agent.agent_details',compact('agent','property','featured','rentProperty','buyProperty'));
     }
 
     public function AgentDetailsMessage(request $request)
@@ -104,14 +104,14 @@ class IndexController extends Controller
         $property = Property::where('status','1')->where('property_status','rent')->paginate(4);
         $rentProperty = Property::where('property_status','rent')->get();
         $buyProperty = Property::where('property_status','buy')->get();
-        return view('frontend.property.rent_property',compact('property','rentProperty','buyProperty'));
+        return view('Frontend.property.rent_property',compact('property','rentProperty','buyProperty'));
     }
 
     public function BuyProperty(){
         $property = Property::where('status','1')->where('property_status','buy')->paginate(4);
         $rentProperty = Property::where('property_status','rent')->get();
         $buyProperty = Property::where('property_status','buy')->get();
-        return view('frontend.property.buy_property',compact('property','rentProperty','buyProperty'));
+        return view('Frontend.property.buy_property',compact('property','rentProperty','buyProperty'));
     }
 
     public function PropertyType($id){
@@ -119,7 +119,7 @@ class IndexController extends Controller
         $rentProperty = Property::where('property_status','rent')->get();
         $buyProperty = Property::where('property_status','buy')->get();
         $p_type = PropertyType::where('id',$id)->first();
-        return view('frontend.property.property_type',compact('property','rentProperty','buyProperty','p_type'));
+        return view('Frontend.property.property_type',compact('property','rentProperty','buyProperty','p_type'));
     }
 
     public function StateDetails($id){
@@ -127,7 +127,7 @@ class IndexController extends Controller
         $bstate = State::where('id',$id)->first();
         $rentProperty = Property::where('property_status','rent')->get();
         $buyProperty = Property::where('property_status','buy')->get();
-        return view('frontend.property.state_property',compact('property','bstate','rentProperty','buyProperty'));
+        return view('Frontend.property.state_property',compact('property','bstate','rentProperty','buyProperty'));
     }
 
     public function BuyPropertySearch(request $request){
@@ -145,7 +145,7 @@ class IndexController extends Controller
             $q->where('type_name','like','%'.$stype.'%');
         })
         ->paginate(5);
-        return view('frontend.property.property_search',compact('property','rentProperty','buyProperty'));
+        return view('Frontend.property.property_search',compact('property','rentProperty','buyProperty'));
     }
 
     public function RentPropertySearch(request $request){
@@ -163,7 +163,7 @@ class IndexController extends Controller
             $q->where('type_name','like','%'.$stype.'%');
         })
         ->paginate(5);
-        return view('frontend.property.property_search',compact('property','rentProperty','buyProperty'));
+        return view('Frontend.property.property_search',compact('property','rentProperty','buyProperty'));
     }
 
     public function AllPropertySearch(request $request){
@@ -184,7 +184,7 @@ class IndexController extends Controller
             $q->where('type_name','like','%'.$stype.'%');
         })
         ->paginate(5);
-        return view('frontend.property.property_search',compact('property','rentProperty','buyProperty'));
+        return view('Frontend.property.property_search',compact('property','rentProperty','buyProperty'));
     }
 
     public function StoreSchedule(request $request){
